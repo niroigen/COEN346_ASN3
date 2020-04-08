@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(asn3)
+project(ASN3)
 
 set(SOURCES
     src/virtual_manager.cpp
+    src/disk.cpp
     src/main.cpp
     src/main_memory.cpp
 )
