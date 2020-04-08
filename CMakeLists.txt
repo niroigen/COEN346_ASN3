@@ -4,6 +4,7 @@ project(asn3)
 set(SOURCES
     src/virtual_manager.cpp
     src/main.cpp
+    src/main_memory.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

@@ -2,10 +2,13 @@
 #define VIRTUAL_MANAGER_HPP
 
 #include <map>
-#include "value_data.hpp"
+#include "include/value_data.hpp"
 
-class VirtualManager
-{
+class VirtualManager {
+  public:
+    VirtualManager();
+
+  private:
     std::map<std::string, ValueData> map;
 };
 
