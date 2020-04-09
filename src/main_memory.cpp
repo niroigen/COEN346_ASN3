@@ -14,7 +14,6 @@ MainMemory::MainMemory(std::string file_path) {
   for (unsigned int frame = 0; frame < num_frames; frame++) {
     frames[frame] = 0;
   }
-  // Read file and make sure to set the maps with keys being the address and the value being unsigned int value
 }
 
 unsigned int MainMemory::getSize() const {
