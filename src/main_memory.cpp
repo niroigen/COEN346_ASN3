@@ -27,5 +27,7 @@ void MainMemory::write(unsigned int address, unsigned int value) {
 }
 
 unsigned int MainMemory::read(unsigned int address) {
-  return frames[address];
+  if (frames.find(address) != frames.end()) {
+    return frames[address];
+  }
 }
