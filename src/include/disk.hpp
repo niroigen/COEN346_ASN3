@@ -8,6 +8,7 @@ class Disk {
     Disk(std::string file_path);
     void write(unsigned int address, unsigned int value);
     unsigned int read(unsigned int address);
+    std::string fileLocation() const;
 
   private:
     std::string vm;

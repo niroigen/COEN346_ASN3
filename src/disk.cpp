@@ -11,3 +11,7 @@ void Disk::write(unsigned int address, unsigned int value) {
 unsigned int Disk::read(unsigned int address) {
   // read from the file as the given address location
 }
+
+std::string Disk::fileLocation() const {
+  return vm;
+}
