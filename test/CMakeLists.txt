@@ -1,6 +1,7 @@
 add_executable(
     unit_tests
     test_main_memory.cpp
+    test_disk.cpp
     )
 
 target_link_libraries(
