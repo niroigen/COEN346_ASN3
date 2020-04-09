@@ -1,10 +1,24 @@
 #include "gtest/gtest.h"
 #include "main_memory.hpp"
-#include <iostream>
 
 TEST(MainMemory, init)
 {
-    std::cout << "starting" << std::endl;
     MainMemory mem("memconfig.txt");
+    EXPECT_EQ(mem.getSize(), 2);
+}
+
+TEST(MainMemory, write)
+{
+    MainMemory mem("memconfig.txt");
+    mem.write(0,500);
+
+    EXPECT_EQ(mem.read(0), 500);
+}
+
+TEST(MainMemory, writeInvalid)
+{
+    MainMemory mem("memconfig.txt");
+    mem.write(5,500);
+
     EXPECT_EQ(mem.getSize(), 2);
 }

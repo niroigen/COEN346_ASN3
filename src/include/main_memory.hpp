@@ -7,8 +7,8 @@
 class MainMemory {
   public:
     MainMemory(std::string); // the path to memconfig.txt
-    void write(unsigned int address); // Address at this location
-    unsigned int read(unsigned int address, unsigned int value);
+    void write(unsigned int address, unsigned int value); // Address at this location
+    unsigned int read(unsigned int address);
     unsigned int getSize() const;
   
   private:

@@ -20,10 +20,12 @@ unsigned int MainMemory::getSize() const {
   return frames.size();
 }
 
-void write(unsigned int address) { // Address at this location
-
+void MainMemory::write(unsigned int address, unsigned int value) {
+  if (frames.find(address) != frames.end()) {
+    frames[address] = value;
+  }
 }
 
-unsigned int read(unsigned int address, unsigned int value) {
-
+unsigned int MainMemory::read(unsigned int address) {
+  return frames[address];
 }
