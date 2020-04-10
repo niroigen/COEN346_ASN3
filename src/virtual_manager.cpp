@@ -23,7 +23,7 @@ unsigned int VirtualManager::memLoopup(std::string varId) {
 void VirtualManager::memStore(std::string varId, unsigned int value) {
   auto curr_time = std::chrono::system_clock::now();
 
-  if (mapping.find(varId) != mapping.end()) {
+  if (mapping.find(varId) == mapping.end()) {
     if (!isFull()) {
       unsigned int address = getAvailableFrame(MAIN_MEM);
 
