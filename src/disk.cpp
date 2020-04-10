@@ -17,10 +17,35 @@ void Disk::write(unsigned int address, unsigned int value) {
   if (address > curr_size) {
     expand();
   }
+
+  std::fstream file(vm) ;
+  if (!file)
+    return;
+
+  unsigned currentLine = 0 ;
+  while (currentLine < address) {
+    file.ignore( std::numeric_limits<std::streamsize>::max(), '\n');
+    ++currentLine;
+  }
+
+  file.seekp(file.tellg());
+
+  file << std::to_string(value);
 }
 
 unsigned int Disk::read(unsigned int address) {
-  // read from the file as the given address location
+  std::string line;
+  std::ifstream disk(vm);
+  for(int i = 0; i < address; ++i)
+    std::getline(disk, line);
+
+  std::getline(disk, line);
+  std::stringstream stream(line);
+
+  unsigned int id;
+  stream>>id;
+
+  return id;
 }
 
 std::string Disk::fileLocation() const {

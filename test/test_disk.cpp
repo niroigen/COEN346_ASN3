@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "disk.hpp"
 
+#include <fstream>
 #include <cstdio>
 class DiskTest : public ::testing::Test {
   public:
@@ -29,6 +30,37 @@ class DiskTest : public ::testing::Test {
           '\n');
     }
 
+    static unsigned int readLine(unsigned int desired_line) {
+      std::string line;
+      std::ifstream vm("vm.txt");
+      for(int i = 0; i < desired_line; ++i)
+        std::getline(vm, line);
+
+      std::getline(vm, line);
+      std::stringstream stream(line);
+
+      unsigned int id;
+      stream>>id;
+
+      return id;
+    }
+
+    static void write(unsigned int line, unsigned int value) {
+      std::fstream file("vm.txt") ;
+      if (!file)
+        return;
+
+      unsigned currentLine = 0 ;
+      while (currentLine < line) {
+        file.ignore( std::numeric_limits<std::streamsize>::max(), '\n');
+        ++currentLine;
+      }
+
+      file.seekp(file.tellg());
+
+      file << std::to_string(value);
+    }
+
     Disk* disk = nullptr;
 };
 
@@ -39,9 +71,21 @@ TEST_F(DiskTest, init)
 
 TEST_F(DiskTest, expand)
 {
-    disk->expand();
-    EXPECT_EQ(disk->getSize(), countLines("vm.txt"));
+  disk->expand();
+  EXPECT_EQ(countLines("vm.txt"), disk->getSize());
 
-    disk->expand();
-    EXPECT_EQ(disk->getSize(), countLines("vm.txt"));
+  disk->expand();
+  EXPECT_EQ(countLines("vm.txt"), disk->getSize());
+}
+
+TEST_F(DiskTest, write)
+{
+  disk->write(1,750);
+  EXPECT_EQ(750, readLine(1));
+}
+
+TEST_F(DiskTest, read)
+{
+  write(1, 520);
+  EXPECT_EQ(520, disk->read(1));
 }

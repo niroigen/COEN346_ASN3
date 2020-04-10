@@ -6,6 +6,8 @@
 #include <fstream>
 #include <ios>
 #include <string>
+#include <limits>
+#include <sstream>
 
 class Disk {
   public:
