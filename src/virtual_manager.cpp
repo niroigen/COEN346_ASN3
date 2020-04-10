@@ -46,7 +46,16 @@ void VirtualManager::memStore(std::string varId, unsigned int value) {
 }
 
 void VirtualManager::memFree(std::string varId) {
-
+  if (mapping.find(varId) != mapping.end()) {
+    auto vmm_val = mapping[varId];
+    if (vmm_val.type == MAIN_MEM) {
+      main_mem_allocated_frames.erase(vmm_val.address);
+    }
+    else if (vmm_val.type == DISK) {
+      disk_allocated_frames.erase(vmm_val.address);
+    }
+    mapping.erase(varId);
+  }
 }
 
 bool VirtualManager::isFull() const {
