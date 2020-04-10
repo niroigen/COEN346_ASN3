@@ -1,7 +1,12 @@
 #include "virtual_manager.hpp"
 
-VirtualManager::VirtualManager() {
-  // Implement the virtual manager by initializing the main memory and the disk space
+VirtualManager::VirtualManager(std::string disk_loc) {
+  disk = new Disk(disk_loc);
+}
+
+VirtualManager::~VirtualManager() {
+  delete disk;
+  disk = nullptr;
 }
 
 unsigned int VirtualManager::memLoopup(std::string varId) {

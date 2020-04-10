@@ -2,6 +2,7 @@ add_executable(
     unit_tests
     test_main_memory.cpp
     test_disk.cpp
+    test_virtual_manager.cpp
     )
 
 target_link_libraries(
