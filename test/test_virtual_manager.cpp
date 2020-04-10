@@ -6,7 +6,7 @@ class VirtualManagerTest : public ::testing::Test {
     VirtualManagerTest() {}
   protected:
     void SetUp() override {
-      vmm = new VirtualManager("vm.txt");
+      vmm = new VirtualManager("vm.txt", "memconfig.txt");
     }
 
     void TearDown() override {
