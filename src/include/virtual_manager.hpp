@@ -18,7 +18,7 @@ class VirtualManager {
 
   private:
     std::map<std::string, ValueData> mapping;
-    Disk* disk;
+    Disk* disk = nullptr;
 };
 
 #endif // VIRTUAL_MANAGER_HPP
