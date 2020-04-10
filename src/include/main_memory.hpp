@@ -1,7 +1,7 @@
 #ifndef MAIN_MEMORY_H
 #define MAIN_MEMORY_H
 
-#include <map>
+#include <unordered_map>
 #include <fstream>
 
 class MainMemory {
@@ -12,7 +12,7 @@ class MainMemory {
     unsigned int getSize() const;
   
   private:
-    std::map<unsigned int, unsigned int> frames;
+    std::unordered_map<unsigned int, unsigned int> frames;
 };
 
 #endif // MAIN_MEMORY_H
