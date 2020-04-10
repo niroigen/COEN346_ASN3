@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include "value_data.hpp"
+#include "vmm_data.hpp"
 #include "disk.hpp"
 #include "main_memory.hpp"
 
@@ -18,7 +18,7 @@ class VirtualManager {
     void memFree(std::string varId);
 
   private:
-    std::map<std::string, ValueData> mapping;
+    std::map<std::string, VMMData> mapping;
     Disk* disk = nullptr;
     MainMemory* main_mem = nullptr;
 };

@@ -1,12 +1,12 @@
-#ifndef VALUE_DATA_HPP
-#define VALUE_DATA_HPP
+#ifndef VMM_DATA_HPP
+#define VMM_DATA_HPP
 
 #include <string>
 
-struct ValueData {
+struct VMMData {
   unsigned int last_access;
   unsigned int address;
   std::string type;
 };
 
-#endif // VALUE_DATA_HPP
+#endif // VMM_DATA_HPP
