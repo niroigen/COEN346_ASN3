@@ -17,7 +17,20 @@ VirtualManager::~VirtualManager() {
 }
 
 unsigned int VirtualManager::memLoopup(std::string varId) {
+  auto curr_time = std::chrono::system_clock::now();
 
+  if (mapping.find(varId) != mapping.end()) {
+    if (mapping[varId].type == MAIN_MEM) {
+      return main_memptr->read(mapping[varId].address);
+    }
+    else if (mapping[varId].type == DISK) {
+      return diskptr->read(mapping[varId].address);
+    }
+
+    mapping[varId].last_access = curr_time;
+  }
+
+  return -1;
 }
 
 void VirtualManager::memStore(std::string varId, unsigned int value) {
