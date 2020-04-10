@@ -1,5 +1,7 @@
 add_library(example "")
 
+SET (CMAKE_CXX_FLAGS_INIT "-Wc++11-extensions")
+
 target_sources(
     example
     PRIVATE
@@ -7,6 +9,7 @@ target_sources(
         disk.cpp
         main.cpp
         main_memory.cpp
+        vm_helper.cpp
     )
 
 target_include_directories(

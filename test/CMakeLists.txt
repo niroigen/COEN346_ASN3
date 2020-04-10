@@ -3,6 +3,7 @@ add_executable(
     test_main_memory.cpp
     test_disk.cpp
     test_virtual_manager.cpp
+    test_vm_helper.cpp
     )
 
 target_link_libraries(
@@ -16,5 +17,4 @@ add_test(
     unit
   COMMAND
     ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/unit_tests
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   )

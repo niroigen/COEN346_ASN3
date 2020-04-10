@@ -6,20 +6,28 @@ class VirtualManagerTest : public ::testing::Test {
     VirtualManagerTest() {}
   protected:
     void SetUp() override {
+      std::ofstream memconfig("memconfig.txt");
+      memconfig << "2\n";
+      memconfig.close();
+
+      std::ofstream diskf("vm.txt", std::ios_base::app | std::ios_base::out);
+      diskf << "\n";
+      diskf.close();
+
       diskptr = new Disk("vm.txt");
       main_memptr = new MainMemory("memconfig.txt");
+
       vmm = new VirtualManager(*diskptr, *main_memptr);
     }
 
     void TearDown() override {
-      delete diskptr;
-      diskptr = nullptr;
-
-      delete main_memptr;
-      main_memptr = nullptr;
+      remove("vm.txt");
+      remove("memconfig.txt");
 
       delete vmm;
       vmm = nullptr;
+      diskptr = nullptr;
+      main_memptr = nullptr;
     }
 
     VirtualManager* vmm = nullptr;

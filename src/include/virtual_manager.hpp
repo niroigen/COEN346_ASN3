@@ -8,6 +8,8 @@
 #include "vmm_data.hpp"
 #include "disk.hpp"
 #include "main_memory.hpp"
+#include "vm_helper.hpp"
+#include "constants.hpp"
 
 using namespace std;
 
@@ -15,15 +17,13 @@ class VirtualManager {
   public:
     VirtualManager(Disk& disk, MainMemory& main_mem);
     ~VirtualManager();
-    unsigned int memLoopup(std::string varId);
+    unsigned int memLookup(std::string varId);
     void memStore(std::string varId, unsigned int value);
     void memFree(std::string varId);
     bool isFull() const;
     unsigned int getAvailableFrame(std::string mem_type) const;
 
   private:
-    static const std::string MAIN_MEM;
-    static const std::string DISK;
     std::unordered_map<std::string, VMMData> mapping;
     std::set<unsigned int> main_mem_allocated_frames;
     std::set<unsigned int> disk_allocated_frames;

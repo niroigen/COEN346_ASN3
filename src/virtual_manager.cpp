@@ -1,8 +1,5 @@
 #include "virtual_manager.hpp"
 
-const std::string VirtualManager::MAIN_MEM = "MAIN";
-const std::string VirtualManager::DISK = "DISK";
-
 VirtualManager::VirtualManager(Disk& disk, MainMemory& main_mem) {
   diskptr = &disk;
   main_memptr = &main_mem;
@@ -16,18 +13,29 @@ VirtualManager::~VirtualManager() {
   main_memptr = nullptr;
 }
 
-unsigned int VirtualManager::memLoopup(std::string varId) {
+unsigned int VirtualManager::memLookup(std::string varId) {
   auto curr_time = std::chrono::system_clock::now();
 
   if (mapping.find(varId) != mapping.end()) {
     if (mapping[varId].type == MAIN_MEM) {
+      mapping[varId].last_access = curr_time;
+
       return main_memptr->read(mapping[varId].address);
     }
     else if (mapping[varId].type == DISK) {
-      return diskptr->read(mapping[varId].address);
-    }
+      std::string swapped_var = swappedVariable(mapping);
 
-    mapping[varId].last_access = curr_time;
+      // grab value of both vars
+      const unsigned int val = diskptr->read(mapping[varId].address);
+
+      // Perform swap on this variables
+      // Copy memory value to temp
+      // Replace between disk and main memory
+      // Update the main_mem_allocated_frames and disk_allocated_frames since there's a swap
+      // Change the varname
+      // Make an update on the mapping
+      return val;
+    }
   }
 
   return -1;
@@ -47,7 +55,11 @@ void VirtualManager::memStore(std::string varId, unsigned int value) {
     }
 
     unsigned int address = getAvailableFrame(mem_type);
-    mapping[varId] = VMMData{curr_time, address, mem_type};
+    VMMData data;
+    data.address = address;
+    data.last_access = curr_time;
+    data.type = mem_type;
+    mapping[varId] = data;
 
     if (mem_type == MAIN_MEM) {
       main_mem_allocated_frames.insert(address);
