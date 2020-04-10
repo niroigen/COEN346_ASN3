@@ -64,13 +64,11 @@ class DiskTest : public ::testing::Test {
     Disk* disk = nullptr;
 };
 
-TEST_F(DiskTest, init)
-{
+TEST_F(DiskTest, init) {
   EXPECT_EQ("vm.txt", disk->fileLocation());
 }
 
-TEST_F(DiskTest, expand)
-{
+TEST_F(DiskTest, expand) {
   disk->expand();
   EXPECT_EQ(countLines("vm.txt"), disk->getSize());
 
@@ -78,14 +76,12 @@ TEST_F(DiskTest, expand)
   EXPECT_EQ(countLines("vm.txt"), disk->getSize());
 }
 
-TEST_F(DiskTest, write)
-{
+TEST_F(DiskTest, write) {
   disk->write(1,750);
   EXPECT_EQ(750, readLine(1));
 }
 
-TEST_F(DiskTest, read)
-{
+TEST_F(DiskTest, read) {
   write(1, 520);
   EXPECT_EQ(520, disk->read(1));
 }
