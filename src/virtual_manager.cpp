@@ -24,11 +24,23 @@ void VirtualManager::memStore(std::string varId, unsigned int value) {
   auto curr_time = std::chrono::system_clock::now();
 
   if (mapping.find(varId) == mapping.end()) {
-    if (!isFull()) {
-      unsigned int address = getAvailableFrame(MAIN_MEM);
+    std::string mem_type;
 
-      mapping[varId] = VMMData{curr_time, address, MAIN_MEM};
+    if (!isFull()) {
+      mem_type = MAIN_MEM;
+    }
+    else {
+      mem_type = DISK;
+    }
+
+    unsigned int address = getAvailableFrame(mem_type);
+    mapping[varId] = VMMData{curr_time, address, mem_type};
+
+    if (mem_type == MAIN_MEM) {
       main_mem_allocated_frames.insert(address);
+    }
+    else {
+      disk_allocated_frames.insert(address);
     }
   }
 }
@@ -50,6 +62,16 @@ unsigned int VirtualManager::getAvailableFrame(std::string mem_type) const {
     }
 
     // Memory is full
+    return -1;
+  }
+  else if (mem_type == DISK){
+    for (auto frame = 0; frame < diskptr->getSize(); frame++) {
+      if (disk_allocated_frames.find(frame) == disk_allocated_frames.end()) {
+        return frame;
+      }
+    }
+
+    // Memory is full, not possible because of disk being inifinite space
     return -1;
   }
 }
