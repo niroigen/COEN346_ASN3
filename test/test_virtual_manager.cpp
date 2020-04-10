@@ -20,3 +20,7 @@ class VirtualManagerTest : public ::testing::Test {
 TEST_F(VirtualManagerTest, init) {
   EXPECT_FALSE(nullptr == vmm);
 }
+
+TEST_F(VirtualManagerTest, isFullWithNoVars) {
+  EXPECT_FALSE(vmm->isFull());
+}

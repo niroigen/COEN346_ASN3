@@ -19,9 +19,11 @@ class VirtualManager {
     void memStore(std::string varId, unsigned int value);
     void memFree(std::string varId);
     bool isFull() const;
-    unsigned int VirtualManager::getAvailableFrame(std::string mem_type) const;
+    unsigned int getAvailableFrame(std::string mem_type) const;
 
   private:
+    static const std::string MAIN_MEM;
+    static const std::string DISK;
     std::unordered_map<std::string, VMMData> mapping;
     std::set<unsigned int> main_mem_allocated_frames;
     std::set<unsigned int> disk_allocated_frames;

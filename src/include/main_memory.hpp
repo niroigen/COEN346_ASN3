@@ -13,6 +13,7 @@ class MainMemory {
   
   private:
     std::unordered_map<unsigned int, unsigned int> frames;
+    friend class VirtualManager;
 };
 
 #endif // MAIN_MEMORY_H
