@@ -27,9 +27,8 @@ void VirtualManager::memStore(std::string varId, unsigned int value) {
     if (!isFull()) {
       unsigned int address = getAvailableFrame(MAIN_MEM);
 
-      if (address != -1) {
-        mapping[varId] = VMMData{curr_time, address, MAIN_MEM};
-      }
+      mapping[varId] = VMMData{curr_time, address, MAIN_MEM};
+      main_mem_allocated_frames.insert(address);
     }
   }
 }
