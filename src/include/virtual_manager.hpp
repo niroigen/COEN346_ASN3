@@ -13,7 +13,7 @@ using namespace std;
 
 class VirtualManager {
   public:
-    VirtualManager(std::string disk_loc, std::string memconfig);
+    VirtualManager(Disk& disk, MainMemory& main_mem);
     ~VirtualManager();
     unsigned int memLoopup(std::string varId);
     void memStore(std::string varId, unsigned int value);
@@ -27,8 +27,8 @@ class VirtualManager {
     std::unordered_map<std::string, VMMData> mapping;
     std::set<unsigned int> main_mem_allocated_frames;
     std::set<unsigned int> disk_allocated_frames;
-    Disk* disk = nullptr;
-    MainMemory* main_mem = nullptr;
+    Disk* diskptr = nullptr;
+    MainMemory* main_memptr = nullptr;
     unsigned int vars_in_main = 0;
 };
 

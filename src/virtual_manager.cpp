@@ -3,17 +3,17 @@
 const std::string VirtualManager::MAIN_MEM = "MAIN";
 const std::string VirtualManager::DISK = "DISK";
 
-VirtualManager::VirtualManager(std::string disk_loc, std::string memconfig) {
-  disk = new Disk(disk_loc);
-  main_mem = new MainMemory(memconfig);
+VirtualManager::VirtualManager(Disk& disk, MainMemory& main_mem) {
+  diskptr = &disk;
+  main_memptr = &main_mem;
 }
 
 VirtualManager::~VirtualManager() {
-  delete disk;
-  disk = nullptr;
+  delete diskptr;
+  diskptr = nullptr;
 
-  delete main_mem;
-  main_mem = nullptr;
+  delete main_memptr;
+  main_memptr = nullptr;
 }
 
 unsigned int VirtualManager::memLoopup(std::string varId) {
@@ -39,13 +39,13 @@ void VirtualManager::memFree(std::string varId) {
 }
 
 bool VirtualManager::isFull() const {
-  return vars_in_main == main_mem->getSize();
+  return vars_in_main == main_memptr->getSize();
 }
 
 unsigned int VirtualManager::getAvailableFrame(std::string mem_type) const {
   if (mem_type == MAIN_MEM) {
-    for (auto frame : main_mem->frames) {
-      if (main_mem_allocated_frames.find(frame.first) != main_mem_allocated_frames.end()) {
+    for (auto frame : main_memptr->frames) {
+      if (main_mem_allocated_frames.find(frame.first) == main_mem_allocated_frames.end()) {
         return frame.first;
       }
     }
