@@ -21,6 +21,6 @@ TEST_F(VirtualManagerTest, init) {
   EXPECT_FALSE(nullptr == vmm);
 }
 
-TEST_F(VirtualManagerTest, isFullWithNoVars) {
+TEST_F(VirtualManagerTest, isFull) {
   EXPECT_FALSE(vmm->isFull());
 }
