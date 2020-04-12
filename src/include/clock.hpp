@@ -3,6 +3,7 @@
 
 #include <atomic>
 #include <thread>
+#include <chrono>
 
 struct Clock {
   std::atomic<unsigned int> time;
@@ -10,7 +11,8 @@ struct Clock {
 
   void run() {
     while(powerOn) {
-      std:
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      time++;
     }
   }
 };

@@ -4,6 +4,7 @@ add_executable(
     test_disk.cpp
     test_virtual_manager.cpp
     test_vm_helper.cpp
+    test_clock.cpp
     )
 
 target_link_libraries(
@@ -11,6 +12,9 @@ target_link_libraries(
     gtest_main
     example
     )
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_test(
   NAME

@@ -10,6 +10,9 @@ target_sources(
         vm_helper.cpp
     )
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 target_include_directories(
     example
     PUBLIC
