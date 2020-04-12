@@ -8,6 +8,7 @@ target_sources(
         main.cpp
         main_memory.cpp
         vm_helper.cpp
+        process.cpp
     )
 
 target_include_directories(
