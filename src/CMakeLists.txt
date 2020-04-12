@@ -8,6 +8,7 @@ target_sources(
         main.cpp
         main_memory.cpp
         vm_helper.cpp
+        scheduler_helper.cpp
     )
 
 set(CMAKE_CXX_STANDARD 11)
