@@ -13,6 +13,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
+SET (CMAKE_CXX_FLAGS_INIT "${CMAKE_CXX_FLAGS} -Wc++11-extensions")
+
 add_subdirectory(src)
 
 include(cmake/googletest.cmake)

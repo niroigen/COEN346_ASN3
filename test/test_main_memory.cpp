@@ -34,11 +34,9 @@ TEST_F(MainMemoryTest, writeAndWriteValid) {
 TEST_F(MainMemoryTest, writeInvalid) {
   mem->write(5,500);
 
-  EXPECT_EQ(mem->getSize(), 2);
+  EXPECT_EQ(mem->read(5), -1);
 }
 
 TEST_F(MainMemoryTest, readInvalid) {
-  mem->read(500);
-
-  EXPECT_EQ(mem->getSize(), 2);
+  EXPECT_EQ(mem->read(5), -1);
 }

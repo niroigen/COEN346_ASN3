@@ -1,7 +1,5 @@
 add_library(example "")
 
-SET (CMAKE_CXX_FLAGS_INIT "-Wc++11-extensions")
-
 target_sources(
     example
     PRIVATE

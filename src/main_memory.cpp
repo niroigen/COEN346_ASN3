@@ -30,4 +30,6 @@ unsigned int MainMemory::read(unsigned int address) {
   if (frames.find(address) != frames.end()) {
     return frames[address];
   }
+
+  return -1;
 }
