@@ -23,18 +23,22 @@ unsigned int VirtualManager::memLookup(std::string varId) {
       return main_memptr->read(mapping[varId].address);
     }
     else if (mapping[varId].type == DISK) {
-      std::string swapped_var = swappedVariable(mapping);
+      std::string& disk_var = varId;
+      std::string main_mem_var = swappedVariable(mapping);
 
-      // grab value of both vars
-      const unsigned int val = diskptr->read(mapping[varId].address);
+      const unsigned int disk_val = diskptr->read(mapping[disk_var].address);
+      const unsigned int main_mem_val = main_memptr->read(mapping[main_mem_var].address);
 
-      // Perform swap on this variables
-      // Copy memory value to temp
-      // Replace between disk and main memory
-      // Update the main_mem_allocated_frames and disk_allocated_frames since there's a swap
-      // Change the varname
-      // Make an update on the mapping
-      return val;
+      diskptr->write(mapping[disk_var].address, main_mem_val);
+      main_memptr->write(mapping[main_mem_var].address, disk_val);
+
+      VMMData disk_data = mapping[disk_var];
+      VMMData main_data = mapping[main_mem_var];
+
+      mapping[disk_var] = main_data;
+      mapping[main_mem_var] = disk_data;
+
+      return disk_val;
     }
   }
 
