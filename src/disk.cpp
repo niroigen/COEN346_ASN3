@@ -2,6 +2,7 @@
 
 Disk::Disk(std::string file_path) {
   vm = file_path;
+  curr_size = 1;
 }
 
 void Disk::expand() {

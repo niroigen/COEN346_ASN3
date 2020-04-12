@@ -27,9 +27,9 @@ class VirtualManager {
     std::unordered_map<std::string, VMMData> mapping;
     std::set<unsigned int> main_mem_allocated_frames;
     std::set<unsigned int> disk_allocated_frames;
-    Disk* diskptr = nullptr;
-    MainMemory* main_memptr = nullptr;
-    unsigned int vars_in_main = 0;
+    Disk* diskptr;
+    MainMemory* main_memptr;
+    unsigned int vars_in_main;
 };
 
 #endif // VIRTUAL_MANAGER_HPP

@@ -26,8 +26,6 @@ class VirtualManagerTest : public ::testing::Test {
 
       delete vmm;
       vmm = nullptr;
-      diskptr = nullptr;
-      main_memptr = nullptr;
     }
 
     VirtualManager* vmm = nullptr;

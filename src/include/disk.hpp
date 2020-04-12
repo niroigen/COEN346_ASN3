@@ -20,7 +20,7 @@ class Disk {
 
   private:
     std::string vm;
-    unsigned int curr_size = 1;
+    unsigned int curr_size;
 };
 
 #endif // DISK_H

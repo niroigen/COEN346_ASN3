@@ -3,6 +3,8 @@
 VirtualManager::VirtualManager(Disk& disk, MainMemory& main_mem) {
   diskptr = &disk;
   main_memptr = &main_mem;
+
+  vars_in_main = 0;
 }
 
 VirtualManager::~VirtualManager() {
