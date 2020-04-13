@@ -36,7 +36,8 @@ TEST_F(SchedulerHelperTest, split) {
 }
 
 TEST_F(SchedulerHelperTest, retrieveProcesses) {
-  auto actual_procs = retrieveProcesses(clk);
+  std::vector<Process> actual_procs;
+  retrieveProcesses(clk, actual_procs);
 
   std::vector<Process> expected_procs;
   expected_procs.push_back(Process(clk, 2, 1));

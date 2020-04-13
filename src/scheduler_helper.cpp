@@ -8,14 +8,12 @@ void split(const std::string& str, std::vector<std::string>& cont)
          std::back_inserter(cont));
 }
 
-std::vector<Process> retrieveProcesses(Clock* clk) {
+void retrieveProcesses(Clock* clk, std::vector<Process>& processes) {
   std::ifstream file("processes.txt");
   std::string str;
   std::string file_contents;
   int line = 0;
   unsigned int numprocs = 0;
-
-  std::vector<Process> processes;
 
   while (std::getline(file, str))
   {
@@ -30,8 +28,6 @@ std::vector<Process> retrieveProcesses(Clock* clk) {
     }
     line++;
   }
-
-  return processes;
 }
 
 bool areProcessesRunning(const std::vector<Process>& processes) {
