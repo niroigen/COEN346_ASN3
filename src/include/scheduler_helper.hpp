@@ -12,5 +12,6 @@
 
 void split(const std::string& str, std::vector<std::string>& cont);
 std::vector<Process> retrieveProcesses(Clock* clk);
+bool areProcessesRunning(const std::vector<Process>& processes);
 
 #endif // SCHEDULER_HELPER_HPP

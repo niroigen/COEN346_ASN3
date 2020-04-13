@@ -33,3 +33,13 @@ std::vector<Process> retrieveProcesses(Clock* clk) {
 
   return processes;
 }
+
+bool areProcessesRunning(const std::vector<Process>& processes) {
+  for (auto& process : processes) {
+    if (process.state != FINISHED) {
+      return true;
+    }
+  }
+
+  return false;
+}

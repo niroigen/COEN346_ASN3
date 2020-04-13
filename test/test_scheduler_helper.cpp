@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "scheduler_helper.hpp"
+#include "constants.hpp"
 
 #include <fstream>
 #include <cstdio>
@@ -44,4 +45,26 @@ TEST_F(SchedulerHelperTest, retrieveProcesses) {
 
   EXPECT_EQ(actual_procs.size(), 3);
   EXPECT_EQ(actual_procs, expected_procs);
+}
+
+TEST_F(SchedulerHelperTest, allProcsRunning) {
+  std::vector<Process> procs;
+  procs.push_back(Process(clk, 2, 1));
+  procs.push_back(Process(clk, 1, 2));
+  procs.push_back(Process(clk, 2, 2));
+
+  EXPECT_EQ(areProcessesRunning(procs), true);
+}
+
+TEST_F(SchedulerHelperTest, allProcsFinishedRunning) {
+  std::vector<Process> procs;
+  procs.push_back(Process(clk, 2, 1));
+  procs.push_back(Process(clk, 1, 2));
+  procs.push_back(Process(clk, 2, 2));
+
+  procs[0].state = FINISHED;
+  procs[1].state = FINISHED;
+  procs[2].state = FINISHED;
+
+  EXPECT_EQ(areProcessesRunning(procs), false);
 }
