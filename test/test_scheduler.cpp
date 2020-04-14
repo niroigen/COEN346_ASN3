@@ -5,8 +5,17 @@ class SchedulerTest : public ::testing::Test {
   public:
     SchedulerTest() {}
   protected:
+    static bool didAllProcessStart(std::vector<Process>* procs) {
+      for (auto it = procs->begin(); it < procs->end(); it++) {
+        if (it->state == READY) return false;
+      }
+
+      return true;
+    }
     void SetUp() override {
       clk = new Clock();
+
+      procs = new std::vector<Process>();
       
       procs->push_back(Process(clk, 2, 1));
       procs->push_back(Process(clk, 1, 2));
@@ -21,6 +30,9 @@ class SchedulerTest : public ::testing::Test {
 
       delete scheduler;
       scheduler = nullptr;
+
+      delete procs;
+      scheduler = nullptr;
     }
 
     Clock* clk = nullptr;
@@ -28,14 +40,29 @@ class SchedulerTest : public ::testing::Test {
     std::vector<Process>* procs = nullptr;
 };
 
-TEST_F(SchedulerTest, deployProcesses) {
-  scheduler->deployProcesses();
+TEST_F(SchedulerTest, deployProcessesToIncompletion) {
 
   std::thread t(&Clock::run, clk);
+  std::thread depl(&Scheduler::deployProcesses, scheduler);
+
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+
+  clk->powerOn = false;
+  t.join();
+  depl.join();
+
+  EXPECT_EQ(SchedulerTest::didAllProcessStart(procs), false);
+}
+
+TEST_F(SchedulerTest, deployProcessesToCompletion) {
+  std::thread t(&Clock::run, clk);
+  std::thread depl(&Scheduler::deployProcesses, scheduler);
+
   std::this_thread::sleep_for(std::chrono::seconds(5));
 
   clk->powerOn = false;
   t.join();
+  depl.join();
 
-  EXPECT_EQ(areProcessesRunning(procs), false);
+  EXPECT_EQ(SchedulerTest::didAllProcessStart(procs), true);
 }

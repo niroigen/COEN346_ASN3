@@ -17,11 +17,12 @@ void Scheduler::run() {
 void Scheduler::deployProcesses() {
   int num_procs_started = 0;
 
-  while(num_procs_started != processes->size()) {
+  while(num_procs_started != processes->size() && clk->powerOn) {
     for (auto & proc : *processes) {
       if (proc.start_time == clk->time && proc.state == READY) {
         // Start the process
         proc.state = STARTED;
+        num_procs_started++;
       }
     }
   }

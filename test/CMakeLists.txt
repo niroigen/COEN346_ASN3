@@ -6,6 +6,7 @@ add_executable(
     test_vm_helper.cpp
     test_clock.cpp
     test_scheduler_helper.cpp
+    test_scheduler.cpp
     )
 
 target_link_libraries(
