@@ -16,14 +16,24 @@ class SchedulerHelperTest : public ::testing::Test {
       processes << "2 2\n";
 
       clk = new Clock();
+
+      procs = new std::vector<Process>();
+
+      procs->push_back(Process(clk, 2, 1));
+      procs->push_back(Process(clk, 1, 2));
+      procs->push_back(Process(clk, 2, 2));
     }
 
     void TearDown() override {
       remove("processes.txt");
       delete clk;
       clk = nullptr;
+
+      delete procs;
+      procs = nullptr;
     }
 
+    std::vector<Process>* procs = nullptr;
     Clock* clk = nullptr;
 };
 
@@ -49,23 +59,13 @@ TEST_F(SchedulerHelperTest, retrieveProcesses) {
 }
 
 TEST_F(SchedulerHelperTest, allProcsRunning) {
-  std::vector<Process> procs;
-  procs.push_back(Process(clk, 2, 1));
-  procs.push_back(Process(clk, 1, 2));
-  procs.push_back(Process(clk, 2, 2));
-
   EXPECT_EQ(areProcessesRunning(procs), true);
 }
 
 TEST_F(SchedulerHelperTest, allProcsFinishedRunning) {
-  std::vector<Process> procs;
-  procs.push_back(Process(clk, 2, 1));
-  procs.push_back(Process(clk, 1, 2));
-  procs.push_back(Process(clk, 2, 2));
-
-  procs[0].state = FINISHED;
-  procs[1].state = FINISHED;
-  procs[2].state = FINISHED;
+  procs->at(0).state = FINISHED;
+  procs->at(1).state = FINISHED;
+  procs->at(2).state = FINISHED;
 
   EXPECT_EQ(areProcessesRunning(procs), false);
 }

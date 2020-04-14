@@ -9,5 +9,6 @@ const std::string READY = "READY";
 const std::string PAUSED = "PAUSED";
 const std::string FINISHED = "FINISHED";
 const std::string RESUMED = "RESUMED";
+const std::string STARTED = "STARTED";
 
 #endif // CONSTANTS_HPP

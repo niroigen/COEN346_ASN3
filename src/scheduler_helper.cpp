@@ -30,8 +30,8 @@ void retrieveProcesses(Clock* clk, std::vector<Process>& processes) {
   }
 }
 
-bool areProcessesRunning(const std::vector<Process>& processes) {
-  for (auto& process : processes) {
+bool areProcessesRunning(const std::vector<Process>* processes) {
+  for (auto& process : *processes) {
     if (process.state != FINISHED) {
       return true;
     }
