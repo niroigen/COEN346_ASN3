@@ -33,6 +33,39 @@ unsigned int Process::getCurrentLine(std::fstream& file) {
   }
 }
 
+void Process::performCmd() {
+  std::string command;
+  std::fstream file("commands.txt");
+  getCurrentLine(file);
+  file >> command;
+
+  if (command == STORE) {
+    std::string var_id;
+    unsigned int val;
+    file >> var_id;
+    file >> val;
+
+    vmm->memStore(var_id, val);
+    logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Store: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
+  }
+  else if (command == LOOKUP) {
+    std::string var_id;
+    file >> var_id;
+
+    auto val = vmm->memLookup(var_id);
+    logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Lookup: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
+  }
+  else if (command == RELEASE) {
+    std::string var_id;
+    file >> var_id;
+
+    vmm->memFree(var_id);
+    logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Release: Variable ") + var_id);
+  }
+
+  file.close();
+}
+
 void Process::run() {
   std::string command;
 
@@ -52,42 +85,11 @@ void Process::run() {
       int curr_time = clk->time;
       while(curr_time == clk->time) {
         sleep(50);
+
         mut.lock();
-
-        std::fstream file("commands.txt");
-        getCurrentLine(file);
-        file >> command;
-
-        if (command == STORE) {
-          std::string var_id;
-          unsigned int val;
-          file >> var_id;
-          file >> val;
-
-          vmm->memStore(var_id, val);
-          logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Store: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
-        }
-        else if (command == LOOKUP) {
-          std::string var_id;
-          file >> var_id;
-
-          auto val = vmm->memLookup(var_id);
-          logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Lookup: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
-        }
-        else if (command == RELEASE) {
-          std::string var_id;
-          file >> var_id;
-          
-          vmm->memFree(var_id);
-          logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Release: Variable ") + var_id);
-        }
-
-        file.close();
-
+        performCmd();
         *curr_line = (*curr_line + 1) % 9;
-
         sleep(600);
-
         mut.unlock();
       }
 
