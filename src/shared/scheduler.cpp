@@ -79,8 +79,6 @@ void Scheduler::deployProcesses() {
   while(num_procs_started != processes.size() && clk->powerOn) {
     for (auto proc : processes) {
       if (in_queue.find(proc) == in_queue.end() && proc->start_time == clk->time) {
-        // DEBUG(std::string("This is process ") + std::to_string(proc->proc_id));
-
         // Start the process
         num_procs_started++;
         process_queue.push(proc);

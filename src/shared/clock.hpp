@@ -16,7 +16,7 @@ struct Clock {
       DEBUG( "Current time " + std::to_string(time) );
       std::this_thread::sleep_for(std::chrono::seconds(1));
       time++;
-      DEBUG("");
+      std::cout << std::endl;
     }
   }
 };

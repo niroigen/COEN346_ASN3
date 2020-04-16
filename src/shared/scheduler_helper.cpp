@@ -8,7 +8,7 @@ void split(const std::string& str, std::vector<std::string>& cont)
          std::back_inserter(cont));
 }
 
-void retrieveProcesses(Clock* clk, std::vector<std::reference_wrapper<Process>> processes) {
+void retrieveProcesses(Clock* clk, std::vector<std::reference_wrapper<Process>> processes, VirtualManager* vmm) {
   std::ifstream file("processes.txt");
   std::string str;
   std::string file_contents;
@@ -23,7 +23,8 @@ void retrieveProcesses(Clock* clk, std::vector<std::reference_wrapper<Process>> 
     else {
       std::vector<std::string> data;
       split(str, data);
-      Process p(clk, std::stoi(data[0]), std::stoi(data[1]));
+      unsigned int* curr_line = new unsigned int(0);
+      Process p(clk, std::stoi(data[0]), std::stoi(data[1]), curr_line, vmm);
       processes.push_back(p);
     }
     line++;

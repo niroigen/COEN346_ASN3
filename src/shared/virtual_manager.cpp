@@ -1,4 +1,5 @@
 #include "virtual_manager.hpp"
+#define DEBUG(x) std::cout << x << std::endl;
 
 VirtualManager::VirtualManager(Disk& disk, MainMemory& main_mem) {
   diskptr = &disk;
@@ -27,6 +28,8 @@ unsigned int VirtualManager::memLookup(std::string varId) {
     else if (mapping[varId].type == DISK) {
       std::string& disk_var = varId;
       std::string main_mem_var = swappedVariable(mapping);
+
+      DEBUG("Memory Manager, SWAP " + disk_var + " with " + main_mem_var);
 
       const unsigned int disk_val = diskptr->read(mapping[disk_var].address);
       const unsigned int main_mem_val = main_memptr->read(mapping[main_mem_var].address);
@@ -67,11 +70,15 @@ void VirtualManager::memStore(std::string varId, unsigned int value) {
     data.type = mem_type;
     mapping[varId] = data;
 
+    DEBUG(std::to_string(mapping[varId].address));
+
     if (mem_type == MAIN_MEM) {
       main_mem_allocated_frames.insert(address);
+      main_memptr->write(address, value);
     }
     else {
       disk_allocated_frames.insert(address);
+      diskptr->write(address, value);
     }
   }
 }
