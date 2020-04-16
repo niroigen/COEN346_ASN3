@@ -7,7 +7,7 @@ Process::Process(const Clock* _clk, unsigned int _start_time, unsigned int _burs
   clk = _clk;
   start_time = _start_time;
   burst_time = _burst_time;
-  remaining_time = burst_time;
+  remaining_time = _burst_time;
   state = READY;
   proc_id = id++;
 }

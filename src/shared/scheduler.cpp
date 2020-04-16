@@ -74,15 +74,17 @@ void Scheduler::run() {
 
 void Scheduler::deployProcesses() {
   int num_procs_started = 0;
+  std::unordered_set<Process*> in_queue;
 
   while(num_procs_started != processes.size() && clk->powerOn) {
     for (auto proc : processes) {
-      // DEBUG( "Clock " + std::to_string(clk->time) );
-      // DEBUG( "Start time " + std::to_string(proc.start_time) );
-      if (proc->start_time == clk->time && proc->state == READY) {
+      if (in_queue.find(proc) == in_queue.end() && proc->start_time == clk->time) {
+        // DEBUG(std::string("This is process ") + std::to_string(proc->proc_id));
+
         // Start the process
         num_procs_started++;
         process_queue.push(proc);
+        in_queue.emplace(proc);
 
         if (curr_threads != NUM_CORES) {
           proc->state = STARTED;
@@ -91,4 +93,6 @@ void Scheduler::deployProcesses() {
       }
     }
   }
+
+  DEBUG("DEPLOYED EVERYONE");
 }

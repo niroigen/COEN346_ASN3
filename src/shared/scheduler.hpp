@@ -4,6 +4,7 @@
 #include <vector>
 #include <queue>
 #include <functional>
+#include <unordered_set>
 #include "process.hpp"
 #include "clock.hpp"
 #include "scheduler_helper.hpp"
