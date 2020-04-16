@@ -97,7 +97,6 @@ void VirtualManager::memFree(std::string varId) {
 }
 
 bool VirtualManager::isFull() const {
-  DEBUG(std::to_string(vars_in_main));
   return vars_in_main == main_memptr->getSize();
 }
 

@@ -14,6 +14,7 @@ struct Process {
   Process(const Clock* _clk, unsigned int _start_time, unsigned int _burst_time, unsigned int* _curr_line, VirtualManager* _vmm);
   bool operator==(const Process &rhs) const;
   void run();
+  static void sleep(unsigned int time);
 
   const Clock* clk;
   unsigned int* curr_line;

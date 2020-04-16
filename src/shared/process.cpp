@@ -19,16 +19,19 @@ bool Process::operator==(const Process &rhs) const {
   return rhs.clk == clk && rhs.start_time == start_time && rhs.burst_time == burst_time && rhs.state == state;
 }
 
+void Process::sleep(unsigned int time) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(time));
+}
+
 void Process::run() {
   while(state != FINISHED) {
     while(state == READY || state == PAUSED) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(400));
+      sleep(400);
     }
     
     DEBUG( "Process started" );
     
     while (state == STARTED || state == RESUMED) {
-      DEBUG(std::to_string(remaining_time));
       if (remaining_time == 0) {
         state = FINISHED;
         break;
@@ -36,12 +39,11 @@ void Process::run() {
 
       int curr_time = clk->time;
       while(curr_time == clk->time) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
+        sleep(50);
         mut.lock();
         
         std::fstream file("commands.txt");
         file.seekg(std::ios::beg);
-        DEBUG(std::to_string(*curr_line -1));
         for(int i=0; i < *curr_line - 1; ++i){
           file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
         }
@@ -72,18 +74,16 @@ void Process::run() {
           DEBUG(std::string("Process ") + std::to_string(proc_id) + std::string(", Release: Variable ") + var_id);
         }
 
-        DEBUG(command);
-
         file.close();
 
         *curr_line = (*curr_line + 1) % 9;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        sleep(600);
 
         mut.unlock();
       }
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
+      sleep(50);
       remaining_time--;
     }
   }

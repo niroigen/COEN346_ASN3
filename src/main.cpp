@@ -7,19 +7,20 @@
 #include "shared/main_memory.hpp"
 #include "shared/scheduler_helper.hpp"
 
-int main() {
-  Clock* clk = new Clock();
-  
-  Disk* diskptr = new Disk("vm.txt");
-  MainMemory* main_memptr = new MainMemory("memconfig.txt");
-  VirtualManager* vmm = new VirtualManager(*diskptr, *main_memptr);
-  unsigned int* curr_line = nullptr;
+Clock* clk = new Clock();
+Disk* diskptr;
+MainMemory* main_memptr;
+VirtualManager* vmm;
+Scheduler* scheduler;
+unsigned int* curr_line;
+std::vector<Process*> procs;
 
-  std::vector<Process*> procs;
-  retrieveProcesses(clk, procs, vmm, curr_line);
-  Scheduler scheduler(clk, procs);
-  
-  clk->powerOn = true;
+void init();
+void deinit();
+
+int main() {
+  init();
+
   std::thread tclk(&Clock::run, clk);
   std::this_thread::sleep_for(std::chrono::milliseconds(50));
   std::thread tsch(&Scheduler::run, scheduler);
@@ -27,6 +28,21 @@ int main() {
   tsch.join();
   tclk.join();
 
+  deinit();
+}
+
+void init() {
+  clk = new Clock();
+  diskptr = new Disk("vm.txt");
+  main_memptr = new MainMemory("memconfig.txt");
+  vmm = new VirtualManager(*diskptr, *main_memptr);
+
+  retrieveProcesses(clk, procs, vmm, curr_line);
+  scheduler = new Scheduler(clk, procs);
+  clk->powerOn = true;
+}
+
+void deinit() {
   for (auto process : procs) {
     delete process;
   }
@@ -39,4 +55,7 @@ int main() {
 
   delete vmm;
   vmm = nullptr;
+
+  delete scheduler;
+  scheduler = nullptr;
 }
