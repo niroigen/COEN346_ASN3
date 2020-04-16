@@ -27,6 +27,10 @@ int main() {
   tsch.join();
   tclk.join();
 
+  for (auto process : procs) {
+    delete process;
+  }
+
   delete clk;
   clk = nullptr;
 
