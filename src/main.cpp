@@ -6,8 +6,8 @@
 int main() {
   // DEBUG( "Hello world" );
   Clock* clk = new Clock();
-  Process* p1 = new Process(clk, 5, 5);
-  Process* p2 = new Process(clk, 1, 10);
+  Process* p1 = new Process(clk, 0, 3);
+  Process* p2 = new Process(clk, 3, 3);
 
   std::vector<Process*> procs;
   procs.push_back(p1);

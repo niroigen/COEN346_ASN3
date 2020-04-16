@@ -4,6 +4,7 @@
 Scheduler::Scheduler(Clock* clk, std::vector<Process*> processes) {
   this->processes = processes;
   this->clk = clk;
+  curr_threads = 0;
 }
 
 void Scheduler::run() {
@@ -25,7 +26,6 @@ void Scheduler::run() {
         p1 = process_queue.front();
         p1->state = RESUMED;
         process_queue.pop();
-        process_queue.push(p1);
       }
       else {
         int proc_id = process_queue.front()->proc_id;
@@ -50,8 +50,11 @@ void Scheduler::run() {
     if (p1 != nullptr || p2 != nullptr) {
       std::this_thread::sleep_for(std::chrono::seconds(QUANTUM_TIME));
 
-      if (p1->state != FINISHED)
+      if (p1->state != FINISHED) {
         p1->state = PAUSED;
+        process_queue.push(p1);
+      }
+      else curr_threads--;
       
       // if (p2->state != FINISHED)
       //   p2->state = PAUSED;
@@ -80,7 +83,11 @@ void Scheduler::deployProcesses() {
         // Start the process
         num_procs_started++;
         process_queue.push(proc);
-        proc->state = STARTED;
+
+        if (curr_threads != NUM_CORES) {
+          proc->state = STARTED;
+          curr_threads++;
+        }
       }
     }
   }

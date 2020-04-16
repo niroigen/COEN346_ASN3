@@ -14,6 +14,7 @@ class Scheduler {
     Clock* clk;
     std::vector<Process*> processes;
     std::queue<Process*> process_queue; 
+    unsigned int curr_threads;
   public:
     Scheduler(Clock* clk, std::vector<Process*> processes);
     void run();
