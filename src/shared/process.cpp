@@ -23,7 +23,7 @@ void Process::sleep(unsigned int time) {
 }
 
 void Process::logging(std::string log) {
-  std::cout << log << std::endl;
+  std::cout << "Process " << proc_id << ", " << log << std::endl;
 }
 
 unsigned int Process::getCurrentLine(std::fstream& file) {
@@ -46,21 +46,21 @@ void Process::performCmd() {
     file >> val;
 
     vmm->memStore(var_id, val);
-    logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Store: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
+    logging(std::string("Store: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
   }
   else if (command == LOOKUP) {
     std::string var_id;
     file >> var_id;
 
     auto val = vmm->memLookup(var_id);
-    logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Lookup: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
+    logging(std::string("Lookup: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
   }
   else if (command == RELEASE) {
     std::string var_id;
     file >> var_id;
 
     vmm->memFree(var_id);
-    logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Release: Variable ") + var_id);
+    logging(std::string("Release: Variable ") + var_id);
   }
 
   file.close();
@@ -74,7 +74,7 @@ void Process::run() {
       sleep(400);
     }
     
-    logging("Process started");
+    logging("Started");
     
     while (state == STARTED || state == RESUMED) {
       if (remaining_time == 0) {
