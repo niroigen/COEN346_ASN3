@@ -2,6 +2,8 @@
 #define SCHEDULER_HPP
 
 #include <vector>
+#include <queue>
+#include <functional>
 #include "process.hpp"
 #include "clock.hpp"
 #include "scheduler_helper.hpp"
@@ -10,9 +12,10 @@
 class Scheduler {
   private:
     Clock* clk;
-    std::vector<Process>* processes;
+    std::vector<Process*> processes;
+    std::queue<Process*> process_queue; 
   public:
-    Scheduler(Clock* clk, std::vector<Process>* processes);
+    Scheduler(Clock* clk, std::vector<Process*> processes);
     void run();
     void deployProcesses();
 };

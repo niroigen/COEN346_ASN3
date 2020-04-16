@@ -1,5 +1,5 @@
-#ifndef DISK_H
-#define DISK_H
+#ifndef DISK_HPP
+#define DISK_HPP
 
 
 #include <iostream>
@@ -23,4 +23,4 @@ class Disk {
     unsigned int curr_size;
 };
 
-#endif // DISK_H
+#endif // DISK_HPP

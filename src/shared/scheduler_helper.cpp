@@ -8,7 +8,7 @@ void split(const std::string& str, std::vector<std::string>& cont)
          std::back_inserter(cont));
 }
 
-void retrieveProcesses(Clock* clk, std::vector<Process>& processes) {
+void retrieveProcesses(Clock* clk, std::vector<std::reference_wrapper<Process>> processes) {
   std::ifstream file("processes.txt");
   std::string str;
   std::string file_contents;
@@ -30,9 +30,9 @@ void retrieveProcesses(Clock* clk, std::vector<Process>& processes) {
   }
 }
 
-bool areProcessesRunning(const std::vector<Process>* processes) {
-  for (auto& process : *processes) {
-    if (process.state != FINISHED) {
+bool areProcessesRunning(const std::vector<Process*> processes) {
+  for (auto& process : processes) {
+    if (process->state != FINISHED) {
       return true;
     }
   }
