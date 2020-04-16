@@ -26,7 +26,16 @@ void Process::logging(std::string log) {
   std::cout << log << std::endl;
 }
 
+unsigned int Process::getCurrentLine(std::fstream& file) {
+  file.seekg(std::ios::beg);
+  for(int i=0; i < *curr_line - 1; ++i){
+    file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+  }
+}
+
 void Process::run() {
+  std::string command;
+
   while(state != FINISHED) {
     while(state == READY || state == PAUSED) {
       sleep(400);
@@ -44,13 +53,9 @@ void Process::run() {
       while(curr_time == clk->time) {
         sleep(50);
         mut.lock();
-        
+
         std::fstream file("commands.txt");
-        file.seekg(std::ios::beg);
-        for(int i=0; i < *curr_line - 1; ++i){
-          file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-        }
-        std::string command;
+        getCurrentLine(file);
         file >> command;
 
         if (command == STORE) {

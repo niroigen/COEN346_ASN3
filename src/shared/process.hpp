@@ -16,6 +16,7 @@ struct Process {
   void run();
   static void sleep(unsigned int time);
   static void logging(std::string log);
+  unsigned int getCurrentLine(std::fstream& file);
 
   const Clock* clk;
   unsigned int* curr_line;
