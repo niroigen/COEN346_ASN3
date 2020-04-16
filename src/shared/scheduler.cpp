@@ -1,5 +1,4 @@
 #include "scheduler.hpp"
-#define DEBUG(x) std::cout << "scheduler.cpp: " + std::string(x) << std::endl;
 
 Scheduler::Scheduler(Clock* clk, std::vector<Process*> processes) {
   this->processes = processes;
@@ -17,47 +16,28 @@ void Scheduler::run() {
   std::thread depl(&Scheduler::deployProcesses, this);
 
   while(areProcessesRunning(processes)) {
-    Process* p1 = nullptr;
-    Process* p2 = nullptr;
+    Process* p = nullptr;
 
     if (!process_queue.empty()) {
-      DEBUG( "There is a process " + std::to_string(process_queue.front()->proc_id));
       if (process_queue.front()->state != FINISHED) {
-        p1 = process_queue.front();
-        p1->state = RESUMED;
+        p = process_queue.front();
+        p->state = RESUMED;
         process_queue.pop();
       }
       else {
         int proc_id = process_queue.front()->proc_id;
         process_queue.pop();
-        DEBUG("GOODBYEEEE " + std::to_string(proc_id));
       }
     }
 
-    // if (!process_queue.empty()) {
-    //   if (process_queue.front().state != FINISHED) {
-    //     p2 = &process_queue.front();
-    //     if (p2->state == READY) p2->state = STARTED;
-    //     else p2->state = RESUMED;
-    //     process_queue.pop();
-    //     process_queue.push(*p2);
-    //   }
-    //   else {
-    //     process_queue.pop();
-    //   }
-    // }
-
-    if (p1 != nullptr || p2 != nullptr) {
+    if (p != nullptr) {
       std::this_thread::sleep_for(std::chrono::seconds(QUANTUM_TIME));
 
-      if (p1->state != FINISHED) {
-        p1->state = PAUSED;
-        process_queue.push(p1);
+      if (p->state != FINISHED) {
+        p->state = PAUSED;
+        process_queue.push(p);
       }
       else curr_threads--;
-      
-      // if (p2->state != FINISHED)
-      //   p2->state = PAUSED;
     }
     else {
       std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -91,6 +71,4 @@ void Scheduler::deployProcesses() {
       }
     }
   }
-
-  DEBUG("DEPLOYED EVERYONE");
 }
