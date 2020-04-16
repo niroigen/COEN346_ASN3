@@ -98,5 +98,5 @@ void Process::run() {
     }
   }
 
-  logging("Finised");
+  logging("Finished");
 }
