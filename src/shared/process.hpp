@@ -15,6 +15,7 @@ struct Process {
   bool operator==(const Process &rhs) const;
   void run();
   static void sleep(unsigned int time);
+  static void logging(std::string log);
 
   const Clock* clk;
   unsigned int* curr_line;

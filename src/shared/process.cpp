@@ -1,5 +1,4 @@
 #include "process.hpp"
-#define DEBUG(x) std::cout << "process.cpp: " + std::string(x) << std::endl;
 
 unsigned int Process::id { 0 };
 
@@ -23,13 +22,17 @@ void Process::sleep(unsigned int time) {
   std::this_thread::sleep_for(std::chrono::milliseconds(time));
 }
 
+void Process::logging(std::string log) {
+  std::cout << log << std::endl;
+}
+
 void Process::run() {
   while(state != FINISHED) {
     while(state == READY || state == PAUSED) {
       sleep(400);
     }
     
-    DEBUG( "Process started" );
+    logging("Process started");
     
     while (state == STARTED || state == RESUMED) {
       if (remaining_time == 0) {
@@ -57,21 +60,21 @@ void Process::run() {
           file >> val;
 
           vmm->memStore(var_id, val);
-          DEBUG(std::string("Process ") + std::to_string(proc_id) + std::string(", Store: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
+          logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Store: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
         }
         else if (command == LOOKUP) {
           std::string var_id;
           file >> var_id;
 
           auto val = vmm->memLookup(var_id);
-          DEBUG(std::string("Process ") + std::to_string(proc_id) + std::string(", Lookup: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
+          logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Lookup: Variable ") + var_id + std::string(", Value: ") + std::to_string(val));
         }
         else if (command == RELEASE) {
           std::string var_id;
           file >> var_id;
           
           vmm->memFree(var_id);
-          DEBUG(std::string("Process ") + std::to_string(proc_id) + std::string(", Release: Variable ") + var_id);
+          logging(std::string("Process ") + std::to_string(proc_id) + std::string(", Release: Variable ") + var_id);
         }
 
         file.close();
@@ -88,5 +91,5 @@ void Process::run() {
     }
   }
 
-  DEBUG("Finised");
+  logging("Finised");
 }
