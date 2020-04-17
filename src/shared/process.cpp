@@ -23,7 +23,7 @@ void Process::sleep(unsigned int time) {
 }
 
 void Process::logging(std::string log) {
-  std::cout << "Process " << proc_id << ", " << log << std::endl;
+  std::cout << "Clock " << clk->time << " Process " << proc_id << ", " << log << std::endl;
 }
 
 unsigned int Process::getCurrentLine(std::fstream& file) {

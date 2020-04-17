@@ -35,7 +35,7 @@ void init() {
   clk = new Clock();
   diskptr = new Disk("vm.txt");
   main_memptr = new MainMemory("memconfig.txt");
-  vmm = new VirtualManager(*diskptr, *main_memptr);
+  vmm = new VirtualManager(*diskptr, *main_memptr, clk);
 
   retrieveProcesses(clk, procs, vmm, curr_line);
   scheduler = new Scheduler(clk, procs);

@@ -1,10 +1,10 @@
 #include "virtual_manager.hpp"
-#define DEBUG(x) std::cout << x << std::endl;
 
-VirtualManager::VirtualManager(Disk& disk, MainMemory& main_mem) {
+VirtualManager::VirtualManager(Disk& disk, MainMemory& main_mem, Clock* _clk) {
   diskptr = &disk;
   main_memptr = &main_mem;
 
+  clk = _clk;
   vars_in_main = 0;
 }
 
@@ -14,6 +14,10 @@ VirtualManager::~VirtualManager() {
 
   delete main_memptr;
   main_memptr = nullptr;
+}
+
+void VirtualManager::logging(std::string log) const {
+  std::cout << "Clock: " << clk->time << " Memory Manager, SWAP " << log << std::endl;
 }
 
 unsigned int VirtualManager::memLookup(std::string varId) {
@@ -29,7 +33,7 @@ unsigned int VirtualManager::memLookup(std::string varId) {
       std::string& disk_var = varId;
       std::string main_mem_var = swappedVariable(mapping);
 
-      DEBUG("Memory Manager, SWAP " + disk_var + " with " + main_mem_var);
+      logging(disk_var + " with " + main_mem_var);
 
       const unsigned int disk_val = diskptr->read(mapping[disk_var].address);
       const unsigned int main_mem_val = main_memptr->read(mapping[main_mem_var].address);
